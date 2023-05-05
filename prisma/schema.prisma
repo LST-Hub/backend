@@ -1,0 +1,172 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id                   Int                    @id @unique @default(autoincrement())
+  firstName            String
+  lastName             String
+  country              String?
+  city                 String?
+  email                String                 @unique
+  password             String
+  imageUrl             String?
+  Integrations         Integrations[]
+  MappedRecords        MappedRecords[]
+  Fields               Fields[]
+  Schedule             Schedule[]
+  Logs                 Logs[]
+  NotificationSettings NotificationSettings[]
+  Configurations       Configurations[]
+  Credentials          Credentials[]
+  CustomFields         CustomFields[]
+
+  @@unique(fields: [email, password], name: "loginUser")
+}
+
+model Integrations {
+  id               Int              @id @default(autoincrement())
+  userId           Int
+  user             Users            @relation(fields: [userId], references: [id])
+  integrationName  String
+  sourceName       String
+  destinationName  String
+  schedule         Boolean
+  fieldMapping     Boolean
+  status           String
+  syncWay          String
+  creationDate     DateTime         @default(now())
+  modificationDate DateTime         @updatedAt
+  Configurations   Configurations[]
+  MappedRecords    MappedRecords[]
+  Schedule         Schedule[]
+  Logs             Logs[]
+}
+
+model Configurations {
+  id                 Int          @id @default(autoincrement())
+  userId             Int
+  user               Users        @relation(fields: [userId], references: [id])
+  integrationId      Int
+  integration        Integrations @relation(fields: [integrationId], references: [id])
+  systemName         String
+  url                String?
+  accountId          String?
+  consumerKey        String?
+  consumerSecretKey  String?
+  accessToken        String?
+  accessSecretToken  String?
+  authenticationType String?
+  creationDate       DateTime     @default(now())
+  modificationDate   DateTime     @updatedAt
+}
+
+model MappedRecords {
+  id               Int            @id @default(autoincrement())
+  userId           Int
+  user             Users          @relation(fields: [userId], references: [id])
+  integrationId    Int
+  integration      Integrations   @relation(fields: [integrationId], references: [id])
+  MappedRecordName String
+  source           String
+  destination      String
+  recordTypeLabel  String
+  recordTypeValue  String
+  UrlLabel         String
+  UrlValue         String
+  status           Boolean
+  creationDate     DateTime       @default(now())
+  modificationDate DateTime       @updatedAt
+  Fields           Fields[]
+  Schedule         Schedule[]
+  CustomFields     CustomFields[]
+  Logs             Logs[]
+}
+
+model Fields {
+  id                    Int           @id @default(autoincrement())
+  userId                Int
+  user                  Users         @relation(fields: [userId], references: [id])
+  mappedRecordId        Int
+  mappedRecord          MappedRecords @relation(fields: [mappedRecordId], references: [id], onDelete: Cascade)
+  // FieldType             String
+  sourceField           String
+  destinationField      String
+  sourceFieldValue      String
+  sourceFieldLabel      String
+  destinationFieldValue String
+}
+
+model Schedule {
+  id               Int           @id @default(autoincrement())
+  userId           Int
+  user             Users         @relation(fields: [userId], references: [id])
+  integrationId    Int
+  integration      Integrations  @relation(fields: [integrationId], references: [id])
+  mappedRecordId   Int
+  mappedRecord     MappedRecords @relation(fields: [mappedRecordId], references: [id])
+  eventType        String
+  startDate        DateTime      @default(now())
+  endDate          DateTime?
+  startTime        String?
+  day              String?
+  noEndDate        Boolean
+  repeatEveryDay   Boolean?
+  performType      String
+  savedSearchLabel String?
+  savedSearchValue String?
+  creationDate     DateTime      @default(now())
+  modificationDate DateTime      @updatedAt
+}
+
+model CustomFields {
+  id                    Int           @id @default(autoincrement())
+  userId                Int
+  user                  Users         @relation(fields: [userId], references: [id])
+  mappedRecordId        Int
+  mappedRecord          MappedRecords @relation(fields: [mappedRecordId], references: [id])
+  sourceFieldValue      String
+  sourceFieldLabel      String
+  destinationFieldValue String
+  destinationFieldLabel String
+  operator              String
+  creationDate          DateTime      @default(now())
+  modificationDate      DateTime      @updatedAt
+}
+
+model Logs {
+  id             Int           @id @default(autoincrement())
+  userId         Int
+  user           Users         @relation(fields: [userId], references: [id])
+  integrationId  Int
+  integration    Integrations  @relation(fields: [integrationId], references: [id])
+  mappedRecordId Int
+  mappedRecord   MappedRecords @relation(fields: [mappedRecordId], references: [id])
+  status         String
+  logMessage     String
+}
+
+model NotificationSettings {
+  id                Int    @id @default(autoincrement())
+  userId            Int
+  user              Users  @relation(fields: [userId], references: [id])
+  notificationLabel String
+  email             String
+}
+
+model Credentials {
+  id               Int      @id @unique @default(autoincrement())
+  userId           Int
+  users            Users    @relation(fields: [userId], references: [id])
+  refreshToken     String
+  creationDate     DateTime @default(now())
+  modificationDate DateTime @updatedAt
+}
