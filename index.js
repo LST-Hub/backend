@@ -44,8 +44,42 @@ v1Router.put("/updateUser/:id", userController.updateUser);
 v1Router.post("/addIntegration", integrationController.createIntegration);
 v1Router.get("/getIntegrations/:id", integrationController.getIntegrations);
 v1Router.get(
-  "/getIntegrationById/:id",
-  integrationController.getIntegrationById
+  "/getIntegrationById/:id", (req, res) => {
+  try {
+    const integration = await prisma.integrations.findUnique({
+      where: {
+        id: Number(req.params.id),
+      },
+    });
+
+    if (integration) {
+      response({
+        res,
+        success: true,
+        status_code: 200,
+        data: [integration],
+        message: "Integration fetched successfully",
+      });
+      return;
+    } else {
+      response({
+        res,
+        success: false,
+        status_code: 400,
+        message: "Integration not found",
+      });
+      return;
+    }
+  } catch (error) {
+    response({
+      res,
+      success: false,
+      status_code: 400,
+      message: "Error in fetching integration",
+    });
+    console.log("error", error);
+  }
+  }
 );
 v1Router.post("/deleteIntegration", integrationController.deleteIntegration);
 v1Router.put("/updateIntegration/:id", integrationController.updateIntegration);
