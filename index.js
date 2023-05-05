@@ -30,7 +30,36 @@ const v1Router = express.Router();
 app.use("/v1", v1Router);
 
 app.get("/sample", (req, res) => {
-  res.send("Express on Vercel");
+  try{
+    const users = await prisma.users.findMany();
+    
+    if(users) {
+      response({
+        res,
+        success: true,
+        status_code: 200,
+        data: ,
+        message: "User logged in successfully",
+      });
+    }
+    else{
+      response({
+        res,
+        success: true,
+        status_code: 200,
+        data: [],
+        message: "User not found",
+      });
+    }
+  }catch (error) {
+    response({
+        res,
+        success: true,
+        status_code: 200,
+        message: "User logged in successfully",
+      });
+    console.log("error==>", error)
+  }
 });
 app.post("/test", (req, res) => {
   res.send("post request", req.body.name);
