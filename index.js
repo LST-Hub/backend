@@ -43,7 +43,8 @@ v1Router.put("/updateUser/:id", userController.updateUser);
 // *** integration routes ***
 v1Router.post("/addIntegration", integrationController.createIntegration);
 v1Router.get("/getIntegrations/:id", integrationController.getIntegrations);
-v1Router.get(
+try {
+  v1Router.get(
   "/getIntegrationById/:id", (req, res) => {
   try {
     const integration = await prisma.integrations.findUnique({
@@ -81,6 +82,9 @@ v1Router.get(
   }
   }
 );
+} catch (error) {
+  console.log("error==>", error);
+}
 v1Router.post("/deleteIntegration", integrationController.deleteIntegration);
 v1Router.put("/updateIntegration/:id", integrationController.updateIntegration);
 v1Router.post("/addConfigurations", integrationController.addConfigurations);
