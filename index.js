@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 const v1Router = express.Router();
 app.use("/v1", v1Router);
 
-app.get("/", (req, res) => {
+app.get("/sample", (req, res) => {
   res.send("Express on Vercel");
 });
 app.post("/test", (req, res) => {
