@@ -1,5 +1,4 @@
 {
-    "name": "vercel-testing",
     "version": "2",
     "builds": [{
         "src": "./index.js",
@@ -9,18 +8,4 @@
         "src": "/(.*)",
         "dest": "/"
     }],
-    "engines": {
-        "node": "14.x"
-    },
-    "scripts": {
-        "start": "nodemon index.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "express": "^4.17.1",
-        "nodemon": "^2.0.7"
-    }
 }
