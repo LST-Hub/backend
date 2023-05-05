@@ -32,6 +32,9 @@ app.use("/v1", v1Router);
 app.get("/", (req, res) => {
   res.send("Express on Vercel");
 });
+app.post("/test", (req, res) => {
+  res.send("post request", req.body.name);
+});
 
 // *** user routes ***
 v1Router.post("/", userController.createUser);
@@ -43,48 +46,10 @@ v1Router.put("/updateUser/:id", userController.updateUser);
 // *** integration routes ***
 v1Router.post("/addIntegration", integrationController.createIntegration);
 v1Router.get("/getIntegrations/:id", integrationController.getIntegrations);
-try {
-  v1Router.get(
-  "/getIntegrationById/:id", (req, res) => {
-  try {
-    const integration = await prisma.integrations.findUnique({
-      where: {
-        id: Number(req.params.id),
-      },
-    });
-
-    if (integration) {
-      response({
-        res,
-        success: true,
-        status_code: 200,
-        data: [integration],
-        message: "Integration fetched successfully",
-      });
-      return;
-    } else {
-      response({
-        res,
-        success: false,
-        status_code: 400,
-        message: "Integration not found",
-      });
-      return;
-    }
-  } catch (error) {
-    response({
-      res,
-      success: false,
-      status_code: 400,
-      message: "Error in fetching integration",
-    });
-    console.log("error", error);
-  }
-  }
+v1Router.get(
+  "/getIntegrationById/:id",
+  integrationController.getIntegrationById
 );
-} catch (error) {
-  console.log("error==>", error);
-}
 v1Router.post("/deleteIntegration", integrationController.deleteIntegration);
 v1Router.put("/updateIntegration/:id", integrationController.updateIntegration);
 v1Router.post("/addConfigurations", integrationController.addConfigurations);
