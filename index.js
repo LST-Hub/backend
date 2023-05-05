@@ -40,15 +40,15 @@ app.get("/sample", (req, res) => {
         res,
         success: true,
         status_code: 200,
-        data: ,
+        data: users,
         message: "User logged in successfully",
       });
     }
     else{
       response({
         res,
-        success: true,
-        status_code: 200,
+        success: false,
+        status_code: 400,
         data: [],
         message: "User not found",
       });
@@ -57,9 +57,10 @@ app.get("/sample", (req, res) => {
     console.log("catch log")
     response({
         res,
-        success: true,
-        status_code: 200,
-        message: "User logged in successfully",
+        success: false,
+        status_code: 400,
+      data: [],
+        message: "error",
       });
     console.log("error==>", error)
   }
