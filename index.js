@@ -30,7 +30,9 @@ const v1Router = express.Router();
 app.use("/v1", v1Router);
 
 app.get("/sample", (req, res) => {
+  console.log("first log")
   try{
+    console.log("try log")
     const users = await prisma.users.findMany();
     
     if(users) {
@@ -52,6 +54,7 @@ app.get("/sample", (req, res) => {
       });
     }
   }catch (error) {
+    console.log("catch log")
     response({
         res,
         success: true,
