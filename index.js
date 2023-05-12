@@ -34,6 +34,10 @@ app.get("/test", (req, res) => {
   res.send("post request");
 });
 
+app.post("/sample", (req, res) => {
+  res.send("name: ", req.body.name);
+});
+
 // *** user routes ***
 v1Router.post("/", userController.createUser);
 v1Router.get("/login", userController.userLogin);
