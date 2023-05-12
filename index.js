@@ -65,8 +65,8 @@ app.get("/sample", (req, res) => {
     console.log("error==>", error)
   }
 });
-app.post("/test", (req, res) => {
-  res.send("post request", req.body.name);
+app.get("/test", (req, res) => {
+  res.send("post request");
 });
 
 // *** user routes ***
