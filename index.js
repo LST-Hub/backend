@@ -53,7 +53,14 @@ app.get("/demo/:id", (req, res) => {
 
 app.post("/sample", (req, res) => {
   console.log(req.body);
-  res.send("name: "+ req.body.name);
+  response({
+        res,
+        success: true,
+        status_code: 200,
+        data: req.body,
+        message: "Integrations fetched successfully",
+      });
+      return;
 });
 
 // *** user routes ***
