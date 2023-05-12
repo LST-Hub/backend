@@ -36,7 +36,7 @@ app.get("/demo/:id", (req, res) => {
 
 app.post("/sample", (req, res) => {
   console.log(req.body);
-  response({
+  res.send({
         res,
         success: true,
         status_code: 200,
