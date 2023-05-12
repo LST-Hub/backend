@@ -33,21 +33,6 @@ app.get("/demo/:id", (req, res) => {
   res.send("get request with params"+ req.params.id);
 });
 
-// get users from users table in database 
-async function getUsers() {
-  const users = await prisma.users.findMany();
-  if(users){
-    res.send(users);
-  }else{
-    res.send("users not available");
-  }
-}
-
-app.get("/users", (req, res) => {
-  getUsers();
-  res.send("get request with params");
-});
-
 app.post("/sample", (req, res) => {
   console.log(req.body);
   response({
