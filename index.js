@@ -45,7 +45,7 @@ async function getUsers() {
 
 app.get("/users", (req, res) => {
   getUsers();
-  // res.send("get request with params");
+  res.send("get request with params");
 });
 
 app.post("/sample", (req, res) => {
