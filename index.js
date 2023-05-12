@@ -30,8 +30,21 @@ const v1Router = express.Router();
 app.use("/v1", v1Router);
 
 
-app.get("/test", (req, res) => {
-  res.send("get request");
+app.get("/test/:id", (req, res) => {
+   try {
+    const user = await prisma.users.findMany({
+    where: {
+      userId: Number(req.params.id)
+    }
+    });
+     if(user) {
+     res.send(user)
+     }else {
+     res.send("user not available")
+     }
+    } catch(e) {
+    res.send(e)
+    }
 });
 
 app.get("/demo/:id", (req, res) => {
