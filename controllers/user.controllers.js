@@ -70,6 +70,7 @@ const createUser = async (req, res) => {
 };
 
 const getUsers = async (req, res) => {
+  console.log(req.params)
   try {
     const user = await prisma.users.findMany({
       where: {
