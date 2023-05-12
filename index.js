@@ -35,7 +35,7 @@ app.get("/test", (req, res) => {
 });
 
 app.get("/demo/:id", (req, res) => {
-  res.send("get request with params", req.params.id);
+  res.send("get request with params"+ req.params.id);
 });
 
 app.post("/sample", (req, res) => {
