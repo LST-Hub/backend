@@ -29,24 +29,6 @@ app.use(express.urlencoded({ extended: false }));
 const v1Router = express.Router();
 app.use("/v1", v1Router);
 
-
-app.get("/test/:id", (req, res) => {
-   try {
-    const user = await prisma.users.findMany({
-    where: {
-      userId: Number(req.params.id)
-    }
-    });
-     if(user) {
-     res.send(user)
-     }else {
-     res.send("user not available")
-     }
-    } catch(e) {
-    res.send(e)
-    }
-});
-
 app.get("/demo/:id", (req, res) => {
   res.send("get request with params"+ req.params.id);
 });
@@ -65,6 +47,7 @@ app.post("/sample", (req, res) => {
 
 // *** user routes ***
 v1Router.post("/", userController.createUser);
+v1Router.get("/getUsers/:id", userController.getUsers);
 v1Router.get("/login", userController.userLogin);
 v1Router.post("/verifyToken", userController.verifyToken);
 v1Router.get("/getUser/:token", userController.getUser);

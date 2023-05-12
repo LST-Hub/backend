@@ -33,7 +33,7 @@ const createUser = async (req, res) => {
           },
         ],
         message: "User created successfully",
-        token: token, 
+        token: token,
         // TODO: check refresh token is neccessary or not
       });
     } else {
@@ -66,6 +66,23 @@ const createUser = async (req, res) => {
       message: "Error while creating user" + error,
     });
     console.log("error==>", error);
+  }
+};
+
+const getUsers = async (req, res) => {
+  try {
+    const user = await prisma.users.findMany({
+      where: {
+        userId: Number(req.params.id),
+      },
+    });
+    if (user) {
+      res.send(user);
+    } else {
+      res.send("user not available");
+    }
+  } catch (e) {
+    res.send(e);
   }
 };
 
@@ -294,6 +311,7 @@ const verifyToken = async (req, res) => {
 
 module.exports = {
   createUser,
+  getUsers,
   getUser,
   updateUser,
   userLogin,
