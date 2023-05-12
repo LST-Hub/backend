@@ -29,42 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 const v1Router = express.Router();
 app.use("/v1", v1Router);
 
-app.get("/sample", (req, res) => {
-  console.log("first log")
-  try{
-    console.log("try log")
-    const users = await prisma.users.findMany();
-    
-    if(users) {
-      response({
-        res,
-        success: true,
-        status_code: 200,
-        data: users,
-        message: "User logged in successfully",
-      });
-    }
-    else{
-      response({
-        res,
-        success: false,
-        status_code: 400,
-        data: [],
-        message: "User not found",
-      });
-    }
-  }catch (error) {
-    console.log("catch log")
-    response({
-        res,
-        success: false,
-        status_code: 400,
-      data: [],
-        message: "error",
-      });
-    console.log("error==>", error)
-  }
-});
+
 app.get("/test", (req, res) => {
   res.send("post request");
 });
