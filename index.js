@@ -31,7 +31,11 @@ app.use("/v1", v1Router);
 
 
 app.get("/test", (req, res) => {
-  res.send("post request");
+  res.send("get request");
+});
+
+app.get("/demo/:id", (req, res) => {
+  res.send("get request with params", req.params.id);
 });
 
 app.post("/sample", (req, res) => {
