@@ -40,7 +40,7 @@ app.get("/demo/:id", (req, res) => {
 
 app.post("/sample", (req, res) => {
   console.log(req.body);
-  res.send("name: ", req.body);
+  res.send("name: "+ req.body.name);
 });
 
 // *** user routes ***
